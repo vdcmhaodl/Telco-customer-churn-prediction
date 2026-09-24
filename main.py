@@ -7,9 +7,10 @@ from src.data.validate import validate_clean_data
 RAW_PATH = "data/raw/telco-churn.csv"
 PROCESSED_PATH = "data/processed/telco-churn-cleaned.csv"
 
-def cleaning_data():
+
+def prepare_data() -> None:
     raw_df = pd.read_csv(RAW_PATH)
-    
+
     clean_df = clean_data(raw_df)
 
     validate_clean_data(
@@ -22,14 +23,12 @@ def cleaning_data():
         index=False,
     )
 
-    print(
-        f"Cleaned dataset saved to {PROCESSED_PATH}"
-    )
-    print(
-        f"Shape: {clean_df.shape}"
-        )
+    print(f"Cleaned dataset saved to {PROCESSED_PATH}")
+    print(f"Shape: {clean_df.shape}")
+
+
 def main() -> None:
-    cleaning_data() # Data cleaning
+    prepare_data()
 
 
 if __name__ == "__main__":
