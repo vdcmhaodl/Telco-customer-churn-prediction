@@ -29,7 +29,7 @@ def cleaning_data():
         f"Shape: {clean_df.shape}"
         )
 def main() -> None:
-    clean_data() # Data cleaning
+    cleaning_data() # Data cleaning
 
 
 if __name__ == "__main__":
