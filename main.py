@@ -1,17 +1,35 @@
 import pandas as pd
 
 from src.data.clean import clean_data
+from src.data.validate import validate_clean_data
 
 
-def main():
-    raw_df = pd.read_csv("data/raw/telco-churn.csv")
+RAW_PATH = "data/raw/telco-churn.csv"
+PROCESSED_PATH = "data/processed/telco-churn-cleaned.csv"
 
+def cleaning_data():
+    raw_df = pd.read_csv(RAW_PATH)
+    
     clean_df = clean_data(raw_df)
 
+    validate_clean_data(
+        raw_df=raw_df,
+        clean_df=clean_df,
+    )
+
     clean_df.to_csv(
-        "data/processed/telco-churn-cleaned.csv",
+        PROCESSED_PATH,
         index=False,
     )
+
+    print(
+        f"Cleaned dataset saved to {PROCESSED_PATH}"
+    )
+    print(
+        f"Shape: {clean_df.shape}"
+        )
+def main() -> None:
+    clean_data() # Data cleaning
 
 
 if __name__ == "__main__":
