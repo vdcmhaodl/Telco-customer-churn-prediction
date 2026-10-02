@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f3ed">
+    <title>Customer Churn Assessment</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body data-api-base="">
+    <header class="page-header">
+      <div class="header-rule" aria-hidden="true"></div>
+      <div class="header-copy">
+        <p class="eyebrow">Retention desk · single customer assessment</p>
+        <h1>Customer churn predictor</h1>
+        <p class="lede">Enter the customer’s current account details to estimate their likelihood of leaving.</p>
+      </div>
+      <p class="context-note"><span aria-hidden="true">01</span> One record at a time</p>
+    </header>
+
+    <main class="workspace">
+      <form id="prediction-form" novalidate>
+        <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden>
+          <h2>Check the customer details</h2>
+          <p id="error-summary-message">Some fields need your attention.</p>
+          <ul id="error-list"></ul>
+        </div>
+
+        <fieldset class="form-section">
+          <legend><span>01</span> Customer profile</legend>
+          <p class="section-note">Household information on the customer’s account.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender" required>
+                <option value="">Select gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+              </select>
+              <p class="field-error" id="gender-error"></p>
+            </div>
+            <div class="field">
+              <label for="SeniorCitizen">Senior citizen</label>
+              <select id="SeniorCitizen" name="SeniorCitizen" required>
+                <option value="">Select status</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+              <p class="field-error" id="SeniorCitizen-error"></p>
+            </div>
+            <div class="field">
+              <label for="Partner">Has a partner</label>
+              <select id="Partner" name="Partner" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p class="field-error" id="Partner-error"></p>
+            </div>
+            <div class="field">
+              <label for="Dependents">Has dependents</label>
+              <select id="Dependents" name="Dependents" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p class="field-error" id="Dependents-error"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend><span>02</span> Account</legend>
+          <p class="section-note">Relationship length and contract terms.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="tenure">Tenure</label>
+              <div class="input-suffix">
+                <input id="tenure" name="tenure" type="number" min="0" step="1" inputmode="numeric" required aria-describedby="tenure-help tenure-error">
+                <span>months</span>
+              </div>
+              <p class="field-help" id="tenure-help">Completed months with the company.</p>
+              <p class="field-error" id="tenure-error"></p>
+            </div>
+            <div class="field">
+              <label for="Contract">Contract</label>
+              <select id="Contract" name="Contract" required>
+                <option value="">Select contract</option>
+                <option value="Month-to-month">Month-to-month</option>
+                <option value="One year">One year</option>
+                <option value="Two year">Two year</option>
+              </select>
+              <p class="field-error" id="Contract-error"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend><span>03</span> Services</legend>
+          <p class="section-note">Services currently associated with the account.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="PhoneService">Phone service</label>
+              <select id="PhoneService" name="PhoneService" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p class="field-error" id="PhoneService-error"></p>
+            </div>
+            <div class="field">
+              <label for="MultipleLines">Multiple lines</label>
+              <select id="MultipleLines" name="MultipleLines" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No phone service">No phone service</option>
+              </select>
+              <p class="field-error" id="MultipleLines-error"></p>
+            </div>
+            <div class="field">
+              <label for="InternetService">Internet service</label>
+              <select id="InternetService" name="InternetService" required>
+                <option value="">Select service</option>
+                <option value="DSL">DSL</option>
+                <option value="Fiber optic">Fiber optic</option>
+                <option value="No">No internet service</option>
+              </select>
+              <p class="field-error" id="InternetService-error"></p>
+            </div>
+            <div class="field">
+              <label for="OnlineSecurity">Online security</label>
+              <select id="OnlineSecurity" name="OnlineSecurity" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="OnlineSecurity-error"></p>
+            </div>
+            <div class="field">
+              <label for="OnlineBackup">Online backup</label>
+              <select id="OnlineBackup" name="OnlineBackup" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="OnlineBackup-error"></p>
+            </div>
+            <div class="field">
+              <label for="DeviceProtection">Device protection</label>
+              <select id="DeviceProtection" name="DeviceProtection" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="DeviceProtection-error"></p>
+            </div>
+            <div class="field">
+              <label for="TechSupport">Tech support</label>
+              <select id="TechSupport" name="TechSupport" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="TechSupport-error"></p>
+            </div>
+            <div class="field">
+              <label for="StreamingTV">Streaming TV</label>
+              <select id="StreamingTV" name="StreamingTV" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="StreamingTV-error"></p>
+            </div>
+            <div class="field">
+              <label for="StreamingMovies">Streaming movies</label>
+              <select id="StreamingMovies" name="StreamingMovies" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No internet service</option>
+              </select>
+              <p class="field-error" id="StreamingMovies-error"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend><span>04</span> Billing</legend>
+          <p class="section-note">Current payment setup and account charges.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="PaperlessBilling">Paperless billing</label>
+              <select id="PaperlessBilling" name="PaperlessBilling" required>
+                <option value="">Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p class="field-error" id="PaperlessBilling-error"></p>
+            </div>
+            <div class="field">
+              <label for="PaymentMethod">Payment method</label>
+              <select id="PaymentMethod" name="PaymentMethod" required>
+                <option value="">Select payment method</option>
+                <option value="Electronic check">Electronic check</option>
+                <option value="Mailed check">Mailed check</option>
+                <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                <option value="Credit card (automatic)">Credit card (automatic)</option>
+              </select>
+              <p class="field-error" id="PaymentMethod-error"></p>
+            </div>
+            <div class="field">
+              <label for="MonthlyCharges">Monthly charges</label>
+              <div class="input-prefix">
+                <span aria-hidden="true">$</span>
+                <input id="MonthlyCharges" name="MonthlyCharges" type="number" min="0" step="0.01" inputmode="decimal" required>
+              </div>
+              <p class="field-error" id="MonthlyCharges-error"></p>
+            </div>
+            <div class="field">
+              <label for="TotalCharges">Total charges</label>
+              <div class="input-prefix">
+                <span aria-hidden="true">$</span>
+                <input id="TotalCharges" name="TotalCharges" type="number" min="0" step="0.01" inputmode="decimal" required>
+              </div>
+              <p class="field-error" id="TotalCharges-error"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="submit-area">
+          <div>
+            <p class="submit-title">Ready to assess this customer?</p>
+            <p class="submit-note">The entered details are sent to the prediction API for this assessment.</p>
+          </div>
+          <button id="submit-button" type="submit">Assess churn risk</button>
+        </div>
+        <p id="request-status" class="sr-only" role="status" aria-live="polite"></p>
+      </form>
+
+      <section id="result-panel" class="result-panel" tabindex="-1" aria-labelledby="result-heading" hidden>
+        <p class="result-kicker">Assessment result</p>
+        <div class="result-heading-row">
+          <h2 id="result-heading">Churn probability</h2>
+          <span id="prediction-label" class="prediction-label"></span>
+        </div>
+        <p id="probability" class="probability"></p>
+        <div class="probability-scale" aria-hidden="true">
+          <span class="scale-track"><span id="scale-marker" class="scale-marker"></span></span>
+          <span>0%</span><span>100%</span>
+        </div>
+        <p id="result-explanation" class="result-explanation"></p>
+        <p class="result-caveat">This estimate describes model output, not the cause of a customer’s behavior.</p>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <p>Frontend crafted with <span>Codex</span>.</p>
+    </footer>
+  </body>
+</html>
