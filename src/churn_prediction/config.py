@@ -1,0 +1,12 @@
+RANDOM_STATE = 6967
+TEST_SIZE = 0.2
+
+ID_COLUMN = "customerID"
+TARGET_COLUMN = "Churn"
+
+TARGET_MAPPING = {
+    "No": 0,
+    "Yes": 1,
+}
+
+SELECTED_THRESHOLD = 0.28
