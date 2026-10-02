@@ -253,13 +253,9 @@ curl -X POST http://127.0.0.1:8000/predict \
 - Cần đánh giá fairness và probability calibration trước khi dùng prediction cho các quyết định tác động trực tiếp đến khách hàng.
 - Dự án hiện chưa có automated unit test, integration test và browser test.
 
-## Công nghệ sử dụng
+## Techstack sử dụng
 
 - **Machine Learning:** pandas, NumPy, scikit-learn, joblib
 - **Backend:** FastAPI, Pydantic, Uvicorn
 - **Frontend:** semantic HTML, modern CSS, vanilla JavaScript
 - **Delivery:** Docker, Python package layout, serialized model artifact
-
----
-
-Dự án được xây dựng như một production-minded case study hoàn chỉnh nhưng gọn gàng: quá trình phân tích có thể truy vết, các quyết định đánh giá được giải thích rõ, preprocessing có thể tái lập và mô hình đã huấn luyện có thể được sử dụng qua cả API lẫn giao diện web thực tế.
