@@ -1,4 +1,4 @@
-# Customer Churn Prediction — Dự đoán khách hàng rời bỏ dịch vụ
+# Customer Churn Prediction - Dự đoán khách hàng rời bỏ dịch vụ
 
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.142-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
