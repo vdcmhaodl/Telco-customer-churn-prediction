@@ -16,7 +16,6 @@ RUN python -m pip install \
     -e .
 
 COPY artifacts/ ./artifacts/
-COPY static/ ./static/
 
 EXPOSE 8000
 
