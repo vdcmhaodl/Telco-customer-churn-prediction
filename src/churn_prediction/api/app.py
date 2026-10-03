@@ -14,6 +14,17 @@ from churn_prediction.api.schemas import (
 from churn_prediction.model.predict import (
     predict_churn,
 )
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=(
+        "%(asctime)s | "
+        "%(levelname)s | "
+        "%(name)s | "
+        "%(message)s"
+    ),
+)
 
 app = FastAPI(
     title="Customer Churn Prediction API",

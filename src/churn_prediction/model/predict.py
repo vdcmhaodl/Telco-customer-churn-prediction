@@ -3,9 +3,14 @@ import numpy as np
 import pandas as pd 
 from functools import lru_cache
 
+import logging
+import time
+
 from churn_prediction.paths import(
     MODEL_ARTIFACT_PATH
 )
+
+logger = logging.getLogger(__name__)
 
 @lru_cache(maxsize=1)
 def load_model_artifact() -> dict:
@@ -15,16 +20,23 @@ def load_model_artifact() -> dict:
             f"{MODEL_ARTIFACT_PATH}. "
             "Run training first."
         )
-
-    return joblib.load(
+    logger.info(
+        "Loading model artifact from %s",
+        MODEL_ARTIFACT_PATH,
+    )
+    artifact = joblib.load(
         MODEL_ARTIFACT_PATH
     )
+    logger.info(
+        "Model artifact loaded successfully"
+    )
+    return artifact
    
 def predict_churn_probability(
     df: pd.DataFrame,
 ) -> np.ndarray:
     artifact = load_model_artifact()
-
+    
     pipeline = artifact["pipeline"]
 
     return pipeline.predict_proba(
@@ -38,13 +50,26 @@ def predict_churn(
 
     threshold = artifact["threshold"]
     
-    probabilities = predict_churn_probability(
-        df
-    )
+    start = time.perf_counter()
+    try:
+        probabilities = predict_churn_probability(
+            df
+        )
+        
+        predictions = (
+            probabilities >= threshold
+        ).astype(int)
+    except Exception:
+        logger.exception(
+            "Prediction failed"
+        )
+        raise
     
-    predictions = (
-        probabilities >= threshold
-    ).astype(int)
+    elapsed = time.perf_counter() - start
+    logger.info(
+        "Prediction completed in %.4f seconds",
+        elapsed,
+    )
     
     return probabilities, predictions
 
