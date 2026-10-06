@@ -3,12 +3,6 @@ from prometheus_client import (
     Histogram,
 )
 
-from prometheus_client import (
-    Counter,
-    Histogram,
-)
-
-
 PREDICTION_REQUESTS = Counter(
     "churn_prediction_requests_total",
     "Total prediction requests reaching the endpoint",
